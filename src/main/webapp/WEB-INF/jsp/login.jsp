@@ -2,7 +2,7 @@
 <html lang="UTF-8">
 
 <head>
-    <title>twoCrm</title>
+    <title>WIO Crm</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -43,26 +43,63 @@
                     <i class="feather icon-unlock auth-icon"></i>
                 </div>
                 <h3 class="mb-4">로그인</h3>
-                <div class="input-group mb-3">
-                    <input type="ID" class="form-control" placeholder="Email">
-                </div>
-                <div class="input-group mb-4">
-                    <input type="password" class="form-control" placeholder="password">
-                </div>
-                <div class="form-group text-left">
-                    <div class="checkbox checkbox-fill d-inline">
-                        <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-                        <label for="checkbox-fill-a1" class="cr"> ID 저장</label>
+                <form action="/login" method="post">
+                    <div class="input-group mb-3">
+                        <input type="ID" class="form-control" placeholder="ID">
                     </div>
-                </div>
-                <button class="btn btn-primary shadow-2 mb-4">Login</button>
-                <p class="mb-2 text-muted">직원 신청 <a href="auth-reset-password.html">신청</a></p>
-                <p class="mb-0 text-muted">업체 신청 <a href="auth-signup.html">신청</a></p>
+                    <div class="input-group mb-4">
+                        <input type="password" class="form-control" placeholder="password">
+                    </div>
+                    <div class="form-group text-left">
+                        <div class="checkbox checkbox-fill d-inline">
+                            <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
+                            <label for="checkbox-fill-a1" class="cr"> ID 저장</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary shadow-2 mb-4">Login</button><br>
+                </form>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pop"  data-whatever="@mdo">업체 가입</button>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">직원 신청</button>
             </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="pop" tabindex="-1" role="dialog" aria-labelledby="companyLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyLabel">아이디 신청</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="company" class="col-form-label">업체명</label>
+                        <input type="text" class="form-control" id="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="ID" class="col-form-label">ID</label>
+                        <input type="text" class="form-control" id="ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="pass1" class="col-form-label">pass</label>
+                        <input type="password" class="form-control" id="pass1">
+                    </div>
+                    <div class="form-group">
+                        <label for="pass2" class="col-form-label">pass 확인</label>
+                        <input type="password" class="form-control" id="pass2">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary">신청</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Required Js -->
 <script src="/assets/js/vendor-all.min.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
