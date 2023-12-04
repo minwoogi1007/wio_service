@@ -28,7 +28,7 @@
 
 </head>
 
-<body>테스트
+<body>
 <div class="auth-wrapper">
     <div class="auth-content">
         <div class="auth-bg">
