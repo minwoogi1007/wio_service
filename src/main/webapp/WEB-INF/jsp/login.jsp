@@ -1,8 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8"	pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
 <html lang="UTF-8">
 
 <head>
-    <title>WIO Crm</title>
+    <title>WIO Service</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
