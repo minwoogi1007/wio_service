@@ -47,10 +47,10 @@
                 <h3 class="mb-4">로그인</h3>
                 <form action="/login" method="post">
                     <div class="input-group mb-3">
-                        <input type="ID" class="form-control" placeholder="ID">
+                        <input type="ID" class="form-control" placeholder="ID" name="username">
                     </div>
                     <div class="input-group mb-4">
-                        <input type="password" class="form-control" placeholder="password">
+                        <input type="password" class="form-control" placeholder="password" name="password" >
                     </div>
                     <div class="form-group text-left">
                         <div class="checkbox checkbox-fill d-inline">
@@ -58,7 +58,7 @@
                             <label for="checkbox-fill-a1" class="cr"> ID 저장</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary shadow-2 mb-4">Login</button><br>
+                    <button type="submit"  value="Login" class="btn btn-primary shadow-2 mb-4">Login</button><br>
                 </form>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pop"  data-whatever="@mdo">업체 가입</button>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">직원 신청</button>
@@ -102,6 +102,39 @@
         </div>
     </div>
 </div>
+
+<!-- 로그인 실패 모달 -->
+<div class="modal fade" id="loginErrorModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">로그인 에러</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>사용자 이름 또는 비밀번호가 잘못되었습니다.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap과 jQuery 스크립트 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // 로그인 실패시 모달 표시
+        <% if (request.getAttribute("loginError") != null) { %>
+        $('#loginErrorModal').modal('show');
+        <% } %>
+    });
+</script>
 <!-- Required Js -->
 <script src="/assets/js/vendor-all.min.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
