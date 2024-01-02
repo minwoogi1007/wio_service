@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/assets/plugins/animation/css/animate.min.css">
     <!-- vendor css -->
     <link rel="stylesheet" href="/assets/css/style.css">
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 </head>
 
 <body>
@@ -66,7 +66,38 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#ID").keyup(function() {
+            var userId = $(this).val();
+
+            // AJAX 요청
+            $.ajax({
+                url: "/checkUserId", // 서버의 URL (변경 가능)
+                type: "GET",
+                data: {
+                    userId: userId
+                },
+                success: function(response) {
+                    if(response.exists) {
+                        // ID가 이미 존재하는 경우
+                        alert("이미 존재하는 ID입니다.");
+                    } else {
+                        // 사용 가능한 ID인 경우
+                        // 추가적인 처리 (예: 사용 가능 메시지 표시)
+                    }
+                },
+                error: function(xhr) {
+                    // 오류 처리
+                }
+            });
+        });
+    });
+</script>
+
+
 <div class="modal fade" id="pop" tabindex="-1" role="dialog" aria-labelledby="companyLabel" aria-hidden="true">
+
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -76,28 +107,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/registerCompany" method="post">
                     <div class="form-group">
-                        <label for="company" class="col-form-label">업체명</label>
-                        <input type="text" class="form-control" id="company">
+                        <label for="company" class="col-form-label">업체명:</label>
+                        <input type="text" class="form-control" name="companyName" id="company">
                     </div>
                     <div class="form-group">
-                        <label for="ID" class="col-form-label">ID</label>
-                        <input type="text" class="form-control" id="ID">
+                        <label for="ID" class="col-form-label">ID:</label>
+                        <input type="text" class="form-control" name="userId" id="ID">
                     </div>
                     <div class="form-group">
-                        <label for="pass1" class="col-form-label">pass</label>
-                        <input type="password" class="form-control" id="pass1">
+                        <label for="pass1" class="col-form-label">Password:</label>
+                        <input type="password" class="form-control" name="password" id="pass1">
                     </div>
                     <div class="form-group">
-                        <label for="pass2" class="col-form-label">pass 확인</label>
+                        <label for="pass2" class="col-form-label">Password 확인:</label>
                         <input type="password" class="form-control" id="pass2">
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button type="submit" class="btn btn-primary">신청</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary">신청</button>
             </div>
         </div>
     </div>
@@ -124,7 +155,7 @@
 </div>
 
 <!-- Bootstrap과 jQuery 스크립트 -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 
 <script>
