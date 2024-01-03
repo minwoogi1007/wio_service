@@ -1,21 +1,19 @@
 package com.twocrm.service;
 
-import com.twocrm.repository.UserRepository;
+import com.twocrm.model.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.twocrm.model.User;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    @Autowired
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-
-    public boolean checkUserIdExists(String userId) {
-        return userRepository.findByUserId(userId).isPresent();
+    public boolean authenticate(String username, String password) {
+        return userMapper.countUserByUsernameAndPassword(username, password) > 0;
     }
 }

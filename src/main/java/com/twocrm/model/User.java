@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @Column(name = "ID")
+    @Column(name = "USERID")
     private String userId;
     @Column(name = "EMP_NAME")
     private String username;
@@ -24,6 +24,7 @@ public class User {
     }
 
     public String getUserId(){ return userId;}
+
     public String getUsername() {
         return username;
     }
@@ -37,9 +38,7 @@ public class User {
         this.id = id;
     }
 
-    public void setUserId(String id) {
-        this.userId = userId;
-    }
+
     public void setUsername(String username) {
         this.username = username;
     }
