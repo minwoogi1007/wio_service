@@ -3,6 +3,8 @@ package com.wio.crm.service;
 import com.wio.crm.mapper.TipdwMapper;
 import com.wio.crm.mapper.Tcnt01EmpMapper;
 import com.wio.crm.mapper.Temp01Mapper;
+import com.wio.crm.model.Tcnt01Emp;
+import com.wio.crm.model.Temp01;
 import com.wio.crm.model.Tipdw;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -34,33 +36,37 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        logger.info("Attempting to load user: {}", userId);
+    public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
+        logger.info("Attempting to load user: {}", userid);
 
-        Tipdw tipdwUser = tipdwMapper.findById(userId);
-        if (tipdwUser == null) {
-            logger.error("User not found: {}", userId);
-            throw new UsernameNotFoundException("User not found: " + userId);
+        Tipdw user = tipdwMapper.findByUserId(userid);
+        if (user == null) {
+            throw new UsernameNotFoundException("인증 실패");
+        }
+
+        if ("N".equals(user.getConfirmYn())) {
+            throw new UsernameNotFoundException("승인 대기중");
         }
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        logger.info("tipdwUser.getGubn() found: {}", tipdwUser.getGubn());
-        if ("0".equals(tipdwUser.getGubn())) {
-            // 직원 로직
+        if ("0".equals(user.getGubn())) {
+            // temp01 테이블에서 유저 정보 조회
+            Temp01 employeeInfo = temp01Mapper.findByUserId(userid);
+            // 직원과 슈퍼유저 권한 설정
             authorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
-        } else if ("1".equals(tipdwUser.getGubn())) {
-            // 슈퍼유저 로직
-            authorities.add(new SimpleGrantedAuthority("ROLE_SUPERUSER"));
-        } else if ("2".equals(tipdwUser.getGubn())) {
-            // 업체유저 로직
-            authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
-        } else if ("3".equals(tipdwUser.getGubn())) {
-            // 일반유저 로직
+          //  if (employeeInfo != null && "some_condition".equals(employeeInfo.getSomeField())) { // 슈퍼유저 조건 확인
+                authorities.add(new SimpleGrantedAuthority("ROLE_SUPERUSER"));
+          //  }
+        } else if ("1".equals(user.getGubn())) {
+            // tcnt01emp 테이블에서 유저 정보 조회
+            Tcnt01Emp companyUserInfo = tcnt01EmpMapper.findByUserId(userid);
+            // 일반유저와 업체유저 권한 설정
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        } else {
-            throw new UsernameNotFoundException("Invalid user role: " + userId);
+            //if (companyUserInfo != null && "some_condition".equals(companyUserInfo.getSomeField())) { // 업체유저 조건 확인
+                authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY"));
+          //  }
         }
 
-        return new User(tipdwUser.getId(), tipdwUser.getPw(), authorities);
+        return new User(user.getUserid(), user.getPw(), authorities);
     }
 }

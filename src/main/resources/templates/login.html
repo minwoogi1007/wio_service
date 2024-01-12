@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<meta charset="UTF-8">
 
 <head>
     <title>WIO Service</title>
@@ -21,9 +21,7 @@
     <!-- vendor css -->
     <link rel="stylesheet" href="/assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script>
 
-    </script>
 </head>
 
 <body>
@@ -41,7 +39,7 @@
                     <i class="feather icon-unlock auth-icon"></i>
                 </div>
                 <h3 class="mb-4">로그인</h3>
-                <form th:action="@{/login}" method="post">
+                <form id="loginForm" th:action="@{/login}" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="ID" name="userId" id="userId">
                     </div>
@@ -103,7 +101,7 @@
 </div>
 
 <!-- 로그인 실패 모달 -->
-<div class="modal fade" id="loginErrorModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="loginErrorModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,7 +111,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>사용자 ID 또는 비밀번호가 잘못되었습니다.</p>
+                <p>오류 메시지가 여기에 표시됩니다.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -130,6 +128,30 @@
 <!-- Required Js -->
 <script src="/assets/js/vendor-all.min.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- 로그인 폼 제출 스크립트 -->
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
 
+        fetch('/login', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = '/main'; // 성공 시 리디렉션
+            } else {
+                return response.text();
+            }
+        }).then(text => {
+            if (text) {
+                alert(text); // 서버로부터 받은 오류 메시지 표시
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+</script>
 </body>
 </html>

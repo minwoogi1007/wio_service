@@ -8,7 +8,7 @@ public class Tipdw {
     private String confirmYn;
     private String confirmTime;
     private String confirmEmp;
-    private String userId;
+    private String userid;
     private String username;
 
     // Getters and Setters
@@ -62,12 +62,12 @@ public class Tipdw {
         this.confirmEmp = confirmEmp;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
