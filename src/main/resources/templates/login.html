@@ -54,67 +54,87 @@
                     </div>
                     <button type="submit" class="btn btn-primary shadow-2 mb-4">Login</button>
                 </form>
-                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#pop"  data-whatever="@mdo">업체 가입</button>
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#companySignupModal"  data-whatever="@mdo">업체 가입</button>
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">직원 신청</button>
             </div>
         </div>
     </div>
 </div>
 
-
-<div class="modal fade" id="pop" tabindex="-1" role="dialog" aria-labelledby="companyLabel" aria-hidden="true">
-
+<!-- 업체 가입 모달 창 -->
+<div class="modal fade" id="companySignupModal" tabindex="-1" role="dialog" aria-labelledby="companySignupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="companyLabel">아이디 신청</h5>
+                <h5 class="modal-title" id="companySignupModalLabel">업체 가입</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/registerCompany" method="post">
+                <form id="companySignupForm">
                     <div class="form-group">
-                        <label for="company" class="col-form-label">업체명:</label>
-                        <input type="text" class="form-control" name="companyName" id="company">
+                        <label for="custName">회사명</label>
+                        <input type="text" class="form-control" id="custName" name="custName" required>
                     </div>
                     <div class="form-group">
-                        <label for="ID" class="col-form-label">ID:</label>
-                        <input type="text" class="form-control" name="userId" id="ID">
+                        <label for="empName">신청자 이름</label>
+                        <input type="text" class="form-control" id="empName" name="empName" required>
                     </div>
                     <div class="form-group">
-                        <label for="pass1" class="col-form-label">Password:</label>
-                        <input type="password" class="form-control" name="password" id="pass1">
+                        <label for="userId">아이디</label>
+                        <input type="text" class="form-control" id="custId" name="userId" required>
                     </div>
                     <div class="form-group">
-                        <label for="pass2" class="col-form-label">Password 확인:</label>
-                        <input type="password" class="form-control" id="pass2">
+                        <label for="custPassword">비밀번호</label>
+                        <input type="password" class="form-control" id="custPassword" name="password" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="submit" class="btn btn-primary">신청</button>
+                    <div class="form-group">
+                        <label for="custPassword2">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="custPassword2" required>
+                        <small id="passwordMatchInfo" class="form-text text-muted"></small>
+                    </div>
+
+                    <script>
+                        document.getElementById('custPassword2').addEventListener('input', function() {
+                            var password = document.getElementById('custPassword').value;
+                            var confirmPassword = this.value;
+                            var passwordMatchInfo = document.getElementById('passwordMatchInfo');
+
+                            if (password === confirmPassword) {
+                                passwordMatchInfo.textContent = '비밀번호가 일치합니다.';
+                                passwordMatchInfo.style.color = 'green';
+                            } else {
+                                passwordMatchInfo.textContent = '비밀번호가 일치하지 않습니다.';
+                                passwordMatchInfo.style.color = 'red';
+                            }
+                        });
+                    </script>
+                    <div class="form-group">
+                        <label for="depart">부서</label>
+                        <input type="text" class="form-control" id="depart" name="depart">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">직급</label>
+                        <input type="text" class="form-control" id="position" name="position">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">주소</label>
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="telNo">직통번호</label>
+                        <input type="text" class="form-control" id="telNo" name="telNo">
+                    </div>
+                    <div class="form-group">
+                        <label for="handPhone">핸드폰번호</label>
+                        <input type="text" class="form-control" id="handPhone" name="handPhone">
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- 로그인 실패 모달 -->
-<div class="modal fade" id="loginErrorModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">로그인 실패</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>오류 메시지가 여기에 표시됩니다.</p>
-            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="submit" class="btn btn-primary" form="companySignupForm">신청하기</button>
             </div>
         </div>
     </div>
@@ -130,14 +150,32 @@
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <!-- 로그인 폼 제출 스크립트 -->
 <script>
+    let isFormSubmitted = false; // 폼이 제출되었는지 추적하는 플래그
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        var formData = new FormData(this);
+        if (!isFormSubmitted) {
+            validateAndSubmitForm();
+        }
+    });
+
+    function validateAndSubmitForm() {
+        var userId = document.getElementById('userId').value;
+        var password = document.getElementById('password').value;
+
+        if (!userId || !password) {
+            alert('아이디와 비밀번호를 모두 입력해주세요.');
+            return;
+        }
+
+        isFormSubmitted = true; // 폼 제출 상태로 설정
+
+        var formData = new FormData(document.getElementById('loginForm'));
 
         fetch('/login', {
             method: 'POST',
             body: formData
         }).then(response => {
+            isFormSubmitted = false; // 폼 제출 상태 해제
             if (response.ok) {
                 window.location.href = '/main'; // 성공 시 리디렉션
             } else {
@@ -148,10 +186,11 @@
                 alert(text); // 서버로부터 받은 오류 메시지 표시
             }
         }).catch(error => {
+            isFormSubmitted = false; // 폼 제출 상태 해제
             console.error('Error:', error);
         });
-    });
-
+    }
 </script>
+
 </body>
 </html>
