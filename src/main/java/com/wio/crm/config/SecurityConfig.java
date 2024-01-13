@@ -26,7 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/company/**").hasAuthority("ROLE_COMPANY")
                         .requestMatchers("/employee/**").hasAuthority("ROLE_EMPLOYEE")
                         .requestMatchers("/superuser/**").hasAuthority("ROLE_SUPERUSER")
-                        .requestMatchers("/encrypt-passwords", "/encryption").permitAll() // 여기에 /encryption 추가
+                        .requestMatchers("/encrypt-passwords", "/encryption","/check-userid-availability").permitAll() // 여기에 /encryption 추가
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

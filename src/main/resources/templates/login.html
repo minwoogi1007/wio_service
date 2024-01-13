@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/assets/plugins/animation/css/animate.min.css">
     <!-- vendor css -->
     <link rel="stylesheet" href="/assets/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 </head>
 
@@ -82,8 +82,9 @@
                         <input type="text" class="form-control" id="empName" name="empName" required>
                     </div>
                     <div class="form-group">
-                        <label for="userId">아이디</label>
-                        <input type="text" class="form-control" id="custId" name="userId" required>
+                        <label for="custUserId">아이디</label>
+                        <input type="text" class="form-control" id="custUserId" name="custUserId"  pattern="[A-Za-z0-9]+" title="한글 입력이 제한됩니다. 영문자와 숫자만 사용할 수 있습니다."required>
+                        <small id="userIdAvailability" class="form-text text-muted"></small>
                     </div>
                     <div class="form-group">
                         <label for="custPassword">비밀번호</label>
@@ -96,6 +97,38 @@
                     </div>
 
                     <script>
+                        document.getElementById('custUserId').addEventListener('input', function() {
+                            var userId = this.value;
+                            var userIdAvailability = document.getElementById('userIdAvailability');
+
+                            if (userId.length > 0) {
+                                fetch('/check-userid-availability?userId=' + userId)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('Server response wasn\'t OK');
+                                        }
+                                        if (response.headers.get("content-type").indexOf("application/json") !== -1) {
+                                            return response.json(); // JSON 응답 변환
+                                        } else {
+                                            throw new Error('Invalid JSON response');
+                                        }
+                                    })
+                                    .then(data => {
+                                        if (data.isAvailable) {
+                                            userIdAvailability.textContent = '사용 가능한 아이디입니다.';
+                                            userIdAvailability.style.color = 'green';
+                                        } else {
+                                            userIdAvailability.textContent = '이미 사용 중인 아이디입니다.';
+                                            userIdAvailability.style.color = 'red';
+                                        }
+                                    }).catch(error => {
+                                    console.error('Error:', error);
+                                });
+                            } else {
+                                userIdAvailability.textContent = '';
+                            }
+                        });
+
                         document.getElementById('custPassword2').addEventListener('input', function() {
                             var password = document.getElementById('custPassword').value;
                             var confirmPassword = this.value;

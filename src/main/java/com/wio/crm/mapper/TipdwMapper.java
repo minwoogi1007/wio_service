@@ -20,4 +20,8 @@ public interface TipdwMapper {
 
     @Select("SELECT * FROM tipdw")
     List<Tipdw> findAll();
+
+    // userId가 존재하는지 여부를 확인하는 쿼리
+    @Select("SELECT COUNT(*) FROM tipdw WHERE userid = #{userId}")
+    int countByUserId(@Param("userId") String userId);
 }

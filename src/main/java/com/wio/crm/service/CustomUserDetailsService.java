@@ -69,4 +69,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new User(user.getUserid(), user.getPw(), authorities);
     }
+
+
+
 }
