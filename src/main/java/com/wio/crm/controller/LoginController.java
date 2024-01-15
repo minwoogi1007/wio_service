@@ -20,7 +20,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // login.html 뷰로 리디렉션
+        return "sign-in"; // sign-in.html 뷰로 리디렉션
     }
 
     @Autowired
