@@ -5,21 +5,21 @@ var KTSigninGeneral = function() {
         init: function() {
             t = document.querySelector("#kt_sign_in_form"), e = document.querySelector("#kt_sign_in_submit"), r = FormValidation.formValidation(t, {
                 fields: {
-                    email: {
+                    userId: {
                         validators: {
                             regexp: {
-                                regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: "The value is not a valid email address"
+                                regexp: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
+                                message: "영문자와 숫자만 가능합니다."
                             },
                             notEmpty: {
-                                message: "Email address is required"
+                                message: "아이디는 필수 입력입니다."
                             }
                         }
                     },
                     password: {
                         validators: {
                             notEmpty: {
-                                message: "The password is required"
+                                message: "비밀 번호 입력은 필수 입니다."
                             }
                         }
                     }
