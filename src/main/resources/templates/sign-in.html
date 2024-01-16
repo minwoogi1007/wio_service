@@ -21,14 +21,31 @@
 	<!--begin::Body-->
 	<body id="kt_body" class="app-blank app-blank">
 		<!--begin::Theme mode setup on page load-->
-		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
-		<!--end::Theme mode setup on page load-->
+		<script>
+			var defaultThemeMode = "light";
+			var themeMode;
+			if (document.documentElement) {
+				if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+					themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+				} else {
+					if (localStorage.getItem("data-bs-theme") !== null) {
+						themeMode = localStorage.getItem("data-bs-theme");
+					} else {
+						themeMode = defaultThemeMode;
+					}
+				}
+				if (themeMode === "system") {
+					themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+				}
+				document.documentElement.setAttribute("data-bs-theme", themeMode);
+			}
+		</script><!--end::Theme mode setup on page load-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Authentication - Sign-in -->
 			<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 				<!--begin::Aside-->
-				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center" style="background-image: url(assets/media/misc/auth-bg.png)">
+				<div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center" style="background-image: url(/assets/media/misc/auth-bg.png)">
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center p-6 p-lg-10 w-100">
 						<!--begin::Logo-->
@@ -77,7 +94,7 @@
 									<div class="col-md-6">
 										<!--begin::Google link=-->
 										<a href="#" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-										<img alt="Logo" src="assets/media/svg/brand-logos/google-icon.svg" class="h-15px me-3" />Sign in with Google</a>
+										<img alt="Logo" src="/assets/media/svg/brand-logos/google-icon.svg" class="h-15px me-3" />Sign in with Google</a>
 										<!--end::Google link=-->
 									</div>
 									<!--end::Col-->
@@ -85,8 +102,8 @@
 									<div class="col-md-6">
 										<!--begin::Google link=-->
 										<a href="#" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-										<img alt="Logo" src="assets/media/svg/brand-logos/apple-black.svg" class="theme-light-show h-15px me-3" />
-										<img alt="Logo" src="assets/media/svg/brand-logos/apple-black-dark.svg" class="theme-dark-show h-15px me-3" />Sign in with Apple</a>
+										<img alt="Logo" src="/assets/media/svg/brand-logos/apple-black.svg" class="theme-light-show h-15px me-3" />
+										<img alt="Logo" src="/assets/media/svg/brand-logos/apple-black-dark.svg" class="theme-dark-show h-15px me-3" />Sign in with Apple</a>
 										<!--end::Google link=-->
 									</div>
 									<!--end::Col-->
@@ -114,7 +131,7 @@
 								<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
 									<div></div>
 									<!--begin::Link-->
-									<a href="authentication/layouts/corporate/reset-password.html" class="link-primary">Forgot Password ?</a>
+									<a href="/authentication/layouts/corporate/reset-password.html" class="link-primary">Forgot Password ?</a>
 									<!--end::Link-->
 								</div>
 								<!--end::Wrapper-->
@@ -133,7 +150,7 @@
 								<!--end::Submit button-->
 								<!--begin::Sign up-->
 								<div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet? 
-								<a href="authentication/layouts/corporate/sign-up.html" class="link-primary">Sign up</a></div>
+								<a href="/authentication/layouts/corporate/sign-up.html" class="link-primary">Sign up</a></div>
 								<!--end::Sign up-->
 							</form>
 							<!--end::Form-->
@@ -161,55 +178,14 @@
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
+		<script src="/assets/plugins/global/plugins.bundle.js"></script>
+		<script src="/assets/js/scripts.bundle.js"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="assets/js/custom/authentication/sign-in/general.js"></script>
+		<script src="/assets/js/custom/authentication/sign-in/general.js"></script>
 		<!--end::Custom Javascript-->
 		<!-- 로그인 폼 제출 스크립트 -->
-		<script>
-			let isFormSubmitted = false; // 폼이 제출되었는지 추적하는 플래그
-			document.getElementById('kt_sign_in_form').addEventListener('submit', function(e) {
-				e.preventDefault();
-				if (!isFormSubmitted) {
-					validateAndSubmitForm();
-				}
-			});
 
-			function validateAndSubmitForm() {
-				var userId = document.getElementById('userId').value;
-				var password = document.getElementById('password').value;
-
-				if (!userId || !password) {
-					alert('아이디와 비밀번호를 모두 입력해주세요.');
-					return;
-				}
-
-				isFormSubmitted = true; // 폼 제출 상태로 설정
-
-				var formData = new FormData(document.getElementById('kt_sign_in_form'));
-
-				fetch('/login', {
-					method: 'POST',
-					body: formData
-				}).then(response => {
-					isFormSubmitted = false; // 폼 제출 상태 해제
-					if (response.ok) {
-						window.location.href = '/main'; // 성공 시 리디렉션
-					} else {
-						return response.text();
-					}
-				}).then(text => {
-					if (text) {
-						alert(text); // 서버로부터 받은 오류 메시지 표시
-					}
-				}).catch(error => {
-					isFormSubmitted = false; // 폼 제출 상태 해제
-					console.error('Error:', error);
-				});
-			}
-		</script>
 		<!--end::Javascript-->
 	</body>
 	<!--end::Body-->
