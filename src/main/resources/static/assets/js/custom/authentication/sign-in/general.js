@@ -19,7 +19,7 @@ var KTSigninGeneral = function() {
                     password: {
                         validators: {
                             notEmpty: {
-                                message: "비밀 번호 입력은 필수 입니다."
+                                message: "비밀 번호는 필수 입력입니다."
                             }
                         }
                     }
