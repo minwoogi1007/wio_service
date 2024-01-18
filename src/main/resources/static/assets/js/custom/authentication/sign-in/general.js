@@ -8,7 +8,7 @@ var KTSigninGeneral = function() {
                     userId: {
                         validators: {
                             regexp: {
-                                regexp: /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
+                                regexp: /^[a-zA-Z0-9]/,
                                 message: "영문자와 숫자만 가능합니다."
                             },
                             notEmpty: {
