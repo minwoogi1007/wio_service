@@ -8,13 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig {
     @Autowired
     private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
+    @Autowired
+    private CustomAuthenticationFailureHandler  customAuthenticationFailureHandler ;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("userId")  // 'userId'로 사용자 이름 파라미터 설정
                         .failureHandler(ajaxAuthenticationFailureHandler)  // 여기에 핸들러 추가
+                        .failureHandler(customAuthenticationFailureHandler)
                         .permitAll())
 
 

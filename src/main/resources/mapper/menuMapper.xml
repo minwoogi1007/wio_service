@@ -27,7 +27,7 @@
                                         AND DM.MENU_CD = MU.MENU_CD AND DM.USE_YN = 'Y'
                                         AND MU.USER_ID = EP.POSITION
                                         AND MU.AUTHORITY = 'Y'
-                                        AND EP.ID =#{username}
+                                        AND EP.USERID =#{username}
                                       UNION ALL SELECT  HM.MENU_CD AS HMENU_CD
                                                      ,   MM.MENU_CD AS MMENU_CD
                                                      ,   DM.MENU_CD AS DMENU_CD

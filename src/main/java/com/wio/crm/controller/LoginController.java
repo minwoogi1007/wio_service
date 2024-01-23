@@ -1,37 +1,63 @@
 package com.wio.crm.controller;
 
 import com.wio.crm.mapper.TipdwMapper;
+import com.wio.crm.service.MenuService;
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Collections;
-import java.util.Map;
-
+import java.util.*;
 
 @Controller
 public class LoginController {
-    @GetMapping("/")
-    public String redirectToLogin() {
-        return "redirect:/login"; // 루트 URL 접근 시 로그인 페이지로 리디렉션
-    }
 
-    @GetMapping("/login")
-    public String login() {
-        return "sign-in"; // sign-in.html 뷰로 리디렉션
-    }
-
+    private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private TipdwMapper tipdwMapper;
 
+    @Autowired
+    private MenuService menuService;
+
+    @GetMapping("/")
+    public String redirectToLogin() {
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "sign-in";
+    }
+
     @GetMapping("/check-userid-availability")
     @ResponseBody
     public Map<String, Boolean> checkUserIdAvailability(@RequestParam String userId) {
-        int count = tipdwMapper.countByUserId(userId);
-        boolean isAvailable = count == 0; // userId가 존재하지 않으면 사용 가능
-        return Collections.singletonMap("isAvailable", isAvailable);
+        return Collections.singletonMap("isAvailable", tipdwMapper.countByUserId(userId) == 0);
+    }
+
+    @GetMapping("/main")
+    public String mainPage(Model model, HttpSession session) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            logger.info("No authentication information available.");
+            return "sign-in";
+        }
+
+        model.addAttribute("userMenus", menuService.getCompanyUserMenus("MINWOOGI"));
+
+        return "main";
+    }
+
+    private boolean hasUserRole(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_USER"));
     }
 }

@@ -62,30 +62,15 @@ var KTSigninGeneral = function() {
                                 throw new Error('Login failed');
                             }
                         }).then(data => {
-                            Swal.fire({
-                                text: "로그인 성공",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "확인",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    const redirectUrl = t.getAttribute("data-kt-redirect-url");
-
-
-                                        window.location.href ='/main'; // 성공적인 로그인 후의 리디렉션
-
-                                }
-                            });
+                            // 로그인 성공 후 리디렉션 또는 추가 처리
+                            window.location.href ='/main';
                         }).catch(error => {
                             console.error('Error:', error);
                             Swal.fire({
-                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                text: error.message, // 서버로부터의 오류 메시지를 표시
                                 icon: "error",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "확인",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
@@ -97,7 +82,8 @@ var KTSigninGeneral = function() {
                     } else {
                         // 유효성 검사 실패 시 처리
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+
+                            text: "유효성 검사 실패 시 처리 Sorry, looks like there are some errors detected, please try again.",
                             icon: "error",
                             buttonsStyling: false,
                             confirmButtonText: "Ok, got it!",

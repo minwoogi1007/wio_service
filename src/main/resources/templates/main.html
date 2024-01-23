@@ -33,17 +33,17 @@
 	<div class="app-page flex-column flex-column-fluid" id="kt_app_page">
 		<!--begin::Header-->
 		<!--HEAD.HTML-->
-		<div th:replace="head :: head"></div>
+		<div th:replace="~{head :: head}"></div>
 		<!--end::Header-->
 		<!--begin::Wrapper-->
 		<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 			<!--begin::Sidebar-->
 			<!--sidebar.HTML-->
-			<div th:replace="sidebar :: sidebar"></div>
+			<div th:replace="~{sidebar :: sidebar}"></div>
 			<!--end::Sidebar-->
 			<!--begin::Main-->
 			<!--contents.HTML-->
-			<div th:replace="contents :: contents"></div>
+			<div th:replace="~{contents :: contents}"></div>
 			<!--end:::Main-->
 		</div>
 		<!--end::Wrapper-->
